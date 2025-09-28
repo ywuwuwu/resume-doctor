@@ -48,7 +48,7 @@ resume-doctor/
 
 ### 1. 克隆仓库
 ```bash
-git clone https://github.com/yourname/resume-doctor.git
+git clone https://github.com/ywuwuwu/resume-doctor.git
 cd resume-doctor
 ```
 
@@ -76,8 +76,8 @@ npm start
 
 ## 🔐 模型与数据库配置
 
-- 向量模型 API: `http://test.2brain.ai:9700/v1/emb`
-- 书生模型 API: `http://test.2brain.ai:23333/v1`
-- MySQL：`bee_beta2`, 用户名为个人 Track_B_x 账户
-- ES 地址：`http://elastic:O43eFzDVxf7qfwND4liMjzEq@test.2brain.ai:9200`
+- 向量模型 
+- 书生模型 
+- MySQL
+- ES 地址
 
