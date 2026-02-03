@@ -1,58 +1,99 @@
 # ResumeDoctor.ai
 
-ResumeDoctor.ai 是一个基于 AI 的简历分析和岗位推荐应用，帮助用户提升求职效率。用户可以上传简历，系统将自动分析简历质量，生成优化建议，并推荐匹配职位。
+**ResumeDoctor.ai** is an AI-powered resume review and job matching web app that helps job seekers improve their resumes faster and discover better-fit roles. Users upload a resume (text or PDF), the system generates actionable improvement suggestions, and recommends relevant jobs using vector similarity search.
 
-## 🌟 项目功能亮点
+## Why it’s useful
 
-- 📝 简历上传：支持文本简历或 PDF 文件上传
-- 🤖 AI 分析建议：调用书生模型生成个性化优化建议
-- 🔍 向量匹配推荐：基于向量模型和 Elasticsearch 推荐相似职位
-- 📊 自动评分与反馈：评估简历完成度、亮点和潜力
+* **End-to-end product**: Upload → parse → AI feedback → scoring → job recommendations
+* **LLM integration**: Personalized rewrite suggestions and highlight extraction
+* **Semantic matching**: Embedding + Elasticsearch kNN for job recommendation (beyond keyword search)
+* **Production-minded deployment**: Reverse proxy + automated deployment via GitHub Actions
 
 ---
 
-## 📁 项目结构
+## Key Features
 
-```
+* **Resume upload**
+
+  * Supports plain text resumes and PDF uploads
+* **AI resume critique**
+
+  * Calls a configurable LLM (“书生” model) to generate personalized suggestions
+  * Outputs structured feedback (strengths, missing items, improvements)
+* **Vector-based job recommendation**
+
+  * Creates embeddings for resumes / job posts
+  * Uses Elasticsearch vector similarity search to retrieve the most relevant roles
+* **Automatic scoring & feedback**
+
+  * Provides a resume quality score (completeness, highlights, potential)
+
+---
+
+## Tech Highlights (what I built)
+
+* **Frontend + backend full-stack integration**
+
+  * React SPA communicates with a Flask REST API
+* **LLM-based analysis pipeline**
+
+  * Prompted generation for resume critiques and optimization suggestions
+* **Embedding + kNN retrieval**
+
+  * Semantic job matching using vector representations + Elasticsearch indexing/search
+* **Persistent storage**
+
+  * Stores resume metadata and results in MySQL
+* **CI/CD deployment**
+
+  * Automated build/deploy pipeline with Nginx reverse proxy routing traffic to Flask + React build
+
+---
+
+## Repository Structure
+
+```text
 resume-doctor/
-├── README.md                      # 项目说明文档
-├── frontend/                      # 前端 React 应用
+├── README.md                      # Project documentation
+├── frontend/                      # React frontend
 │   ├── public/
 │   └── src/
-│       └── App.js                # 前端主界面
-├── backend/                       # 后端 Flask 服务
+│       └── App.js                 # Main UI
+├── backend/                       # Flask backend service
 │   └── app.py
-├── init/                          # 初始化脚本
-│   ├── init_mysql.sql            # 建表 SQL 脚本
-│   └── init_es.py                # Elasticsearch 初始化
-└── .github/workflows/            # 自动部署配置
+├── init/                          # Initialization scripts
+│   ├── init_mysql.sql             # MySQL schema
+│   └── init_es.py                 # Elasticsearch initialization (index + mapping)
+└── .github/workflows/             # CI/CD workflows
     └── deploy.yml
 ```
 
 ---
 
-## ⚙️ 技术栈
+## Tech Stack
 
-| 层级    | 技术                   | 描述                        |
-| ------- | ---------------------- | --------------------------- |
-| 前端    | React                  | 用户交互界面                |
-| 后端    | Flask                  | 路由与 API 服务             |
-| 数据库  | MySQL                  | 简历信息存储                |
-| 检索    | Elasticsearch          | 职位匹配索引                |
-| AI 模型 | 向量模型 + 书生模型    | 向量化表示与文本生成        |
-| 部署    | Nginx + GitHub Actions | 自动上线到 demo02.2brain.ai |
+|              Layer | Technology                 | What it’s used for                    |
+| -----------------: | -------------------------- | ------------------------------------- |
+|           Frontend | React                      | Resume upload UI + results dashboard  |
+|            Backend | Flask                      | REST API, business logic, model calls |
+|           Database | MySQL                      | Resume records, analysis outputs      |
+| Search / Retrieval | Elasticsearch              | Job index + vector similarity search  |
+|                 AI | Embedding model + “书生” LLM | Embeddings + text critique generation |
+|         Deployment | Nginx + GitHub Actions     | Reverse proxy + automated deployment  |
 
 ---
 
-## 🚀 快速开始
+## Quick Start
 
-### 1. 克隆仓库
+### 1) Clone the repo
+
 ```bash
 git clone https://github.com/ywuwuwu/resume-doctor.git
 cd resume-doctor
 ```
 
-### 2. 后端环境配置（Flask）
+### 2) Backend (Flask)
+
 ```bash
 cd backend
 python3.12 -m venv venv
@@ -61,23 +102,36 @@ pip install -r requirements.txt
 python app.py
 ```
 
-### 3. 前端运行（React）
+### 3) Frontend (React)
+
 ```bash
 cd frontend
 npm install
 npm start
 ```
 
-### 4. 配置服务器部署（Nginx & Actions）
-- 修改 nginx 配置指向 Flask 和 React build
-- 设置 GitHub Secrets 实现服务器自动登录和部署
+---
+
+## Configuration
+
+This project depends on **an LLM endpoint**, **an embedding model**, **MySQL**, and **Elasticsearch**.
+
+Create a `.env` (or set environment variables in your deployment platform) for:
+
+* **LLM (书生)**
+
+
+* **Embeddings**
+
+* **MySQL**
+
+* **Elasticsearch**
 
 ---
 
-## 🔐 模型与数据库配置
+## Deployment Notes (Nginx + CI/CD)
 
-- 向量模型 
-- 书生模型 
-- MySQL
-- ES 地址
+* **Nginx** routes:
 
+  * `/api/*` → Flask backend
+  * `/` → React build output
